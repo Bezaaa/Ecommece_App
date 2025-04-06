@@ -1,0 +1,2 @@
+echo -e '🚧 Checking Prettier formatting...\n'
+npm run lint
