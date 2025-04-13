@@ -14,30 +14,49 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout your code
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
 
+      # Set up Node.js
       - name: 🟢 Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: '18'
 
+      # Install dependencies
       - name: 📦 Install dependencies
         run: npm ci
 
+      # Run Prettier
       - name: ✨ Run Prettier
         run: npm run prettier-fix
 
-      # - name: 🧪 Run Tests
-      #   run: npm run test
+      # Run tests
+      - name: 🧪 Run Tests
+        run: npm run test
 
+      # Lint the code
       - name: 🔬 Lint
         run: npm run lint
 
+      # Build the project
       - name: 🛠️ Build
         run: npm run build
 
-      - name: 🚀 Deploy
-        run: npm run deploy
+      # Deploy to Vercel (this is where you integrate Vercel)
+      - name: 🚀 Deploy to Vercel
+        run: |
+          # Install Vercel CLI
+          npm install -g vercel
+
+          # Link the project (Make sure the VERCEL_PROJECT_ID and VERCEL_ORG_ID are set correctly in GitHub Secrets)
+          vercel link --token ${{ secrets.VERCEL_TOKEN }}
+
+          # Deploy the project (this assumes you have already linked it correctly)
+          vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
+
         env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}   # Vercel token from GitHub Secrets
+        
+
