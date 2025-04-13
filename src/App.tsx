@@ -1,7 +1,7 @@
 function App() {
   return (
     <div>
-      <h1>Welcome to the E-commerce App </h1>
+      <h1>Welcome to the E-commerce App Page </h1>
     </div>
   );
 }

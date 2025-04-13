@@ -59,7 +59,7 @@ jobs:
 
           # Extract the preview URL from the deploy output
           echo "DEPLOY_URL=$(echo $DEPLOY_OUTPUT | grep -oP 'https://[^\s]+')" >> $GITHUB_ENV
-          
+
           echo "Deployment URL: $DEPLOY_URL"
 
       # Post the deployment URL as a comment on the pull request
