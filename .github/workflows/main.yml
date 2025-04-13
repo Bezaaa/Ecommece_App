@@ -54,8 +54,7 @@ jobs:
           vercel link --yes --token ${{ secrets.VERCEL_TOKEN }}
 
           # Deploy the project (this assumes you have already linked it correctly)
-            vercel --ecommerce --prod --token ${{ secrets.VERCEL_TOKEN }}
-
+                  vercel --name ecommerce --prod --token ${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }} # Vercel token from GitHub Secrets
 
