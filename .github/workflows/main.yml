@@ -42,7 +42,7 @@ jobs:
 
       # Build the project
       - name: 🛠️ Build
-        run: npm run build
+        run: npm run build 
 
       # Deploy to Vercel (this is where you integrate Vercel)
       - name: 🚀 Deploy to Vercel
