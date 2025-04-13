@@ -1,2 +1,36 @@
+#!/bin/bash
 echo -e '🚧 Checking Prettier formatting...\n'
-npm run lint
+# Check Prettier standards
+npm run prettier-fix || {
+  echo '❌ Prettier failed. Run "npm run prettier-fix" to auto-format your code.';
+  exit 1;
+}
+
+echo -e '✅ Prettier formatting complete. (1/4)\n'
+echo -e '🚧 Running your tests...\n'
+
+# Run tests
+npm run test || {
+  echo '❌ Tests failed.';
+  exit 1;
+}
+
+echo -e '✅ Testing complete. (2/4)\n'
+echo -e '🚧 Checking ESLint...\n'
+
+# ESLint
+npm run lint || {
+  echo '❌ ESLint failed. Run "npm run lint-fix" or fix manually.';
+  exit 1;
+}
+
+echo -e '✅ ESLint check complete. (3/4)\n'
+echo -e '🚧 Building your application...\n'
+
+npm run build || {
+  echo '❌ Build failed.';
+  exit 1;
+}
+
+echo -e '✅ All checks completed. (4/4)\n'
+echo -e '✅ Committing...\n'
