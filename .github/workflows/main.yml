@@ -32,7 +32,7 @@ jobs:
       - name: ✨ Run Prettier
         run: npm run prettier-fix
 
-      # Run tests
+      # Run tests (optional)
       # - name: 🧪 Run Tests
       #   run: npm run test
 
@@ -42,10 +42,11 @@ jobs:
 
       # Build the project
       - name: 🛠️ Build
-        run: npm run build 
+        run: npm run build
 
       # Deploy to Vercel (this is where you integrate Vercel)
       - name: 🚀 Deploy to Vercel
+        id: vercel-deploy
         run: |
           # Install Vercel CLI
           npm install -g vercel
@@ -54,6 +55,23 @@ jobs:
           vercel link --yes --token ${{ secrets.VERCEL_TOKEN }}
 
           # Deploy the project (this assumes you have already linked it correctly)
-          vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
+          DEPLOY_OUTPUT=$(vercel --prod --token ${{ secrets.VERCEL_TOKEN }})
+
+          # Extract the preview URL from the deploy output
+          echo "DEPLOY_URL=$(echo $DEPLOY_OUTPUT | grep -oP 'https://[^\s]+')" >> $GITHUB_ENV
+          
+          echo "Deployment URL: $DEPLOY_URL"
+
+      # Post the deployment URL as a comment on the pull request
+      - name: 📝 Post Preview URL as PR Comment
+        if: github.event_name == 'pull_request'
+        run: |
+          # Check if DEPLOY_URL is set and post it as a comment on PR
+          if [ -n "$DEPLOY_URL" ]; then
+            COMMENT_BODY="Preview deployment is available: $DEPLOY_URL"
+            curl -X POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+              -d '{"body":"'"$COMMENT_BODY"'"}' \
+              "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
+          fi
         env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          DEPLOY_URL: ${{ env.DEPLOY_URL }}
