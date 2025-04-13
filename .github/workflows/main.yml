@@ -50,11 +50,12 @@ jobs:
           # Install Vercel CLI
           npm install -g vercel
 
-          # Link the project (Make sure the VERCEL_PROJECT_ID and VERCEL_ORG_ID are set correctly in GitHub Secrets)
-          vercel link --token ${{ secrets.VERCEL_TOKEN }}
+          # Link the project and automatically confirm with --yes
+          vercel link --yes --token ${{ secrets.VERCEL_TOKEN }}
 
           # Deploy the project (this assumes you have already linked it correctly)
           vercel --prod --token ${{ secrets.VERCEL_TOKEN }}
+
 
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }} # Vercel token from GitHub Secrets
