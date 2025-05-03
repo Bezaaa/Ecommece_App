@@ -1,8 +1,11 @@
+import { BrowserRouter as Router } from "react-router-dom";
+import AppRoutes from "./routes/app";
+
 function App() {
   return (
-    <div>
-      <h1>Welcome to the E-commerce App </h1>
-    </div>
+    <Router>
+      <AppRoutes />
+    </Router>
   );
 }
 
