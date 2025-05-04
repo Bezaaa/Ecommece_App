@@ -45,31 +45,35 @@ jobs:
       - name: 🛠️ Build
         run: npm run build
 
-      # Deploy to Vercel (this is where you integrate Vercel)
+      # Deploy to Vercel
       - name: 🚀 Deploy to Vercel
         id: vercel-deploy
         run: |
           # Install Vercel CLI
           npm install -g vercel
 
-          # Link the project and automatically confirm with --yes
+          # Link the project automatically with --yes
           vercel link --yes --token ${{ secrets.VERCEL_TOKEN }}
 
-          # Deploy the project (this assumes you have already linked it correctly)
+          # Deploy the project (use --prod for production URL)
           DEPLOY_OUTPUT=$(vercel --prod --token ${{ secrets.VERCEL_TOKEN }})
 
-          # Extract the preview URL from the deploy output
+          # Extract the deployment URL from output
           echo "DEPLOY_URL=$(echo $DEPLOY_OUTPUT | grep -oP 'https://[^\s]+')" >> $GITHUB_ENV
 
           echo "Deployment URL: $DEPLOY_URL"
 
-      # Post the deployment URL as a comment on the pull request
-      - name: 📝 Post Preview URL as PR Comment
+      # Post both Preview + Production URLs as a PR comment
+      - name: 📝 Post Deployment URLs as PR Comment
         if: github.event_name == 'pull_request'
         run: |
-          # Check if DEPLOY_URL is set and post it as a comment on PR
+          # Your constant production URL - REPLACE this with your real URL!
+          PRODUCTION_URL="https://ecommerce-six-orpin-69.vercel.app"
+
+          # Check if DEPLOY_URL is set and post both URLs as a comment on PR
           if [ -n "$DEPLOY_URL" ]; then
-            COMMENT_BODY="Preview deployment is available: $DEPLOY_URL"
+            COMMENT_BODY="🚀 **Deployment complete!**\n\n🔗 **Preview URL:** $DEPLOY_URL\n🔗 **Production URL:** $PRODUCTION_URL"
+            echo -e "$COMMENT_BODY"
             curl -X POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
               -d '{"body":"'"$COMMENT_BODY"'"}' \
               "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments"
