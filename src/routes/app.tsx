@@ -1,13 +1,14 @@
 // src/AppRoutes.js
 import { Routes, Route } from "react-router-dom";
 import Layout from "../layout";
-import Home from "../__root/pages/Home/page";
+
+import WelcomePage from "@/__root/pages/WelcomePage/page";
 
 export default function AppRoutes() {
   return (
     <Routes>
       <Route element={<Layout />}>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<WelcomePage />} />
       </Route>
     </Routes>
   );
