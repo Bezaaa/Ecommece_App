@@ -3,8 +3,14 @@ import { Logo } from "../assets";
 import navItems from "../constants/NavItems";
 import { CiShoppingCart } from "react-icons/ci";
 import { RxAvatar } from "react-icons/rx";
+import { useState } from "react";
 
 const NavBar = () => {
+  const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
+  const handleAvatarClick = () => {
+    setIsAvatarModalOpen(!isAvatarModalOpen);
+  };
+
   return (
     <div className="bg-white shadow-md flex justify-between items-center p-4">
       {/* Logo containter */}
@@ -30,7 +36,11 @@ const NavBar = () => {
           className="text-gray-700 hover:text-blue-500 cursor-pointer"
           size={30}
         />
-        <RxAvatar className="cursor-pointer" size={30} />
+        <RxAvatar
+          className="cursor-pointer"
+          size={30}
+          onClick={handleAvatarClick}
+        />
       </div>
     </div>
   );
