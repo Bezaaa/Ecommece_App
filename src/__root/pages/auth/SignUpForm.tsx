@@ -1,4 +1,4 @@
-import { useCheckBackendIsWorking} from "@/hooks/useSignUp";
+import { useCheckBackendIsWorking } from "@/hooks/useSignUp";
 import validationSchema from "@/utils/validations/signUpFormValidations";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useEffect, useState } from "react";
@@ -13,31 +13,30 @@ const initialValues = {
 };
 
 const SignUpForm = () => {
-  const [isPasswordSeen , setIsPasswordSeen] = useState(false);
-  const [isConfirmPasswordSeen , setIsConfirmPasswordSeen] = useState(false);
+  const [isPasswordSeen, setIsPasswordSeen] = useState(false);
+  const [isConfirmPasswordSeen, setIsConfirmPasswordSeen] = useState(false);
 
-  const {data ,refetch } = useCheckBackendIsWorking()
+  const { data, refetch } = useCheckBackendIsWorking();
 
   const handleSubmit = async (values: typeof initialValues) => {
     // mutate(values);]
-  
-
 
     console.log("Form values:", values);
 
     // Optionally re-check backend status
     const result = await refetch();
     console.log("Backend re-checked:", result.data);
-  
-    
   };
   useEffect(() => {
     console.log("Backend response:", data);
-  }
-, [data]);
+  }, [data]);
 
   return (
-    <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={validationSchema}>
+    <Formik
+      initialValues={initialValues}
+      onSubmit={handleSubmit}
+      validationSchema={validationSchema}
+    >
       <Form className="flex flex-col items-center justify-center min-h-screen bg-gray-800 p-6 ">
         <div className="w-full   p-8">
           <h1 className="text-3xl font-extrabold text-center text-white mb-6">
@@ -45,7 +44,10 @@ const SignUpForm = () => {
           </h1>
 
           <div className="mb-5">
-            <label htmlFor="firstName" className="block mb-2 text-sm font-medium text-gray-300">
+            <label
+              htmlFor="firstName"
+              className="block mb-2 text-sm font-medium text-gray-300"
+            >
               First Name
             </label>
             <Field
@@ -62,7 +64,10 @@ const SignUpForm = () => {
           </div>
 
           <div className="mb-5">
-            <label htmlFor="lastName" className="block mb-2 text-sm font-medium text-gray-300">
+            <label
+              htmlFor="lastName"
+              className="block mb-2 text-sm font-medium text-gray-300"
+            >
               Last Name
             </label>
             <Field
@@ -79,7 +84,10 @@ const SignUpForm = () => {
           </div>
 
           <div className="mb-5">
-            <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-300">
+            <label
+              htmlFor="email"
+              className="block mb-2 text-sm font-medium text-gray-300"
+            >
               Email
             </label>
             <Field
@@ -96,37 +104,64 @@ const SignUpForm = () => {
           </div>
 
           <div className=" relative mb-5">
-            <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-300">
+            <label
+              htmlFor="password"
+              className="block mb-2 text-sm font-medium text-gray-300"
+            >
               Password
             </label>
             <Field
               name="password"
-              type={isPasswordSeen ? "text":"password"}
+              type={isPasswordSeen ? "text" : "password"}
               placeholder="Create a password"
               className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
-         {isPasswordSeen ? <FaRegEye onClick={()=>setIsPasswordSeen(false)} className="absolute right-4 top-[40%] translate-y-1/2 cursor-pointer" size={20}/> :    <FaRegEyeSlash onClick={()=>setIsPasswordSeen(true)} className="absolute right-4 top-[40%] translate-y-1/2 cursor-pointer" size={20}/>
-          }  
+            {isPasswordSeen ? (
+              <FaRegEye
+                onClick={() => setIsPasswordSeen(false)}
+                className="absolute right-4 top-[40%] translate-y-1/2 cursor-pointer"
+                size={20}
+              />
+            ) : (
+              <FaRegEyeSlash
+                onClick={() => setIsPasswordSeen(true)}
+                className="absolute right-4 top-[40%] translate-y-1/2 cursor-pointer"
+                size={20}
+              />
+            )}
             <ErrorMessage
               name="password"
               component="div"
               className="text-red-500 text-xs mt-1"
             />
-
           </div>
 
           <div className="mb-6 relative">
-            <label htmlFor="confirmPassword" className="block mb-2 text-sm font-medium text-gray-300">
+            <label
+              htmlFor="confirmPassword"
+              className="block mb-2 text-sm font-medium text-gray-300"
+            >
               Confirm Password
             </label>
             <Field
               name="confirmPassword"
-              type={isConfirmPasswordSeen ? "text":"password"}
+              type={isConfirmPasswordSeen ? "text" : "password"}
               placeholder="Confirm your password"
               className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
-                     {isConfirmPasswordSeen ? <FaRegEye onClick={()=>setIsConfirmPasswordSeen(false)} className="absolute right-4 top-[40%] translate-y-1/2 cursor-pointer" size={20}/> :    <FaRegEyeSlash onClick={()=>setIsConfirmPasswordSeen(true)} className="absolute right-4 top-[40%] translate-y-1/2 cursor-pointer" size={20}/>
-          } 
+            {isConfirmPasswordSeen ? (
+              <FaRegEye
+                onClick={() => setIsConfirmPasswordSeen(false)}
+                className="absolute right-4 top-[40%] translate-y-1/2 cursor-pointer"
+                size={20}
+              />
+            ) : (
+              <FaRegEyeSlash
+                onClick={() => setIsConfirmPasswordSeen(true)}
+                className="absolute right-4 top-[40%] translate-y-1/2 cursor-pointer"
+                size={20}
+              />
+            )}
             <ErrorMessage
               name="confirmPassword"
               component="div"
@@ -146,8 +181,12 @@ const SignUpForm = () => {
             <a href="/login" className="text-indigo-500 hover:underline">
               Log In
             </a>
-            </p>
-            {data?  <p className="text-green-500">Backend is working</p> : <p className="text-red-500">Backend is not working</p>}
+          </p>
+          {data ? (
+            <p className="text-green-500">Backend is working</p>
+          ) : (
+            <p className="text-red-500">Backend is not working</p>
+          )}
         </div>
       </Form>
     </Formik>
