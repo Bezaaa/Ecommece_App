@@ -11,8 +11,6 @@ export default function AppRoutes() {
       <Route element={<Layout />}>
         <Route path="/" element={<WelcomePage />} />
         <Route path="/auth" element={<SignUp />} />
-
-
       </Route>
     </Routes>
   );
