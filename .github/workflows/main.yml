@@ -44,6 +44,7 @@ jobs:
         run: npm run build
 
       # Deploy to Vercel
+      # Deploy to Vercel
       - name: 🚀 Deploy to Vercel
         id: vercel-deploy
         run: |
@@ -51,8 +52,10 @@ jobs:
           npm install -g vercel
 
           # Link the project automatically with --yes
+          # Link the project automatically with --yes
           vercel link --yes --token ${{ secrets.VERCEL_TOKEN }}
 
+          # Deploy the project (use --prod for production URL)
           # Deploy the project (use --prod for production URL)
           DEPLOY_OUTPUT=$(vercel --prod --token ${{ secrets.VERCEL_TOKEN }})
 
@@ -61,6 +64,8 @@ jobs:
           echo "DEPLOY_URL=$DEPLOY_URL" >> $GITHUB_ENV
           echo "Deployment URL: $DEPLOY_URL"
 
+      
+     
       # Post both Preview + Production URLs as a PR comment
       - name: 📝 Post Deployment URLs as PR Comment
         if: github.event_name == 'pull_request'
@@ -68,6 +73,8 @@ jobs:
           PRODUCTION_URL="https://ecommerce-six-orpin-69.vercel.app"
 
           if [ -n "$DEPLOY_URL" ]; then
+            COMMENT_BODY="🚀 **Deployment complete!**\n\n🔗 **Preview URL:** $DEPLOY_URL\n🔗 **Production URL:** $PRODUCTION_URL"
+            echo -e "$COMMENT_BODY"
             COMMENT_BODY="🚀 **Deployment complete!**\n\n🔗 **Preview URL:** $DEPLOY_URL\n🔗 **Production URL:** $PRODUCTION_URL"
             echo -e "$COMMENT_BODY"
             curl -X POST -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
