@@ -1,5 +1,6 @@
 // src/hooks/useSignUpMutation.ts
-import { signUp, SignUpData } from "@/api/signUp";
+import { signUp} from "@/api/signUp";
+import { SignUpData } from "@/types/SignUp";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 
