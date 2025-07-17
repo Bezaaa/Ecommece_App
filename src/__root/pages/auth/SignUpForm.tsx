@@ -1,8 +1,8 @@
-import { useCheckBackendIsWorking } from "@/hooks/useSignUp";
+import { useCheckBackendIsWorking, useSignUpMutation } from "@/hooks/useSignUp";
 import validationSchema from "@/utils/validations/signUpFormValidations";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import { useEffect, useState } from "react";
-import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
+import { FaRegEye, FaRegEyeSlash, FaSpinner } from "react-icons/fa";
 
 const initialValues = {
   firstName: "",
@@ -17,15 +17,13 @@ const SignUpForm = () => {
   const [isConfirmPasswordSeen, setIsConfirmPasswordSeen] = useState(false);
 
   const { data, refetch } = useCheckBackendIsWorking();
+  const { mutate: createAccount, isPending } = useSignUpMutation();
 
   const handleSubmit = async (values: typeof initialValues) => {
-    // mutate(values);]
+    const { firstName, lastName, email, password } = values;
+    await createAccount({ firstName, lastName, email, password });
 
-    console.log("Form values:", values);
-
-    // Optionally re-check backend status
-    const result = await refetch();
-    console.log("Backend re-checked:", result.data);
+    refetch();
   };
   useEffect(() => {
     console.log("Backend response:", data);
@@ -171,9 +169,15 @@ const SignUpForm = () => {
 
           <button
             type="submit"
-            className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-white font-semibold text-lg transition-colors duration-300"
+            className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-white font-semibold text-lg transition-colors duration-300 cursor-pointer"
           >
-            Sign Up
+            {isPending ? (
+              <div className="flex justify-center items-center">
+                <FaSpinner />
+              </div>
+            ) : (
+              "Sign Up"
+            )}
           </button>
 
           <p className="mt-4 text-sm text-center text-gray-400">
@@ -182,11 +186,6 @@ const SignUpForm = () => {
               Log In
             </a>
           </p>
-          {data ? (
-            <p className="text-green-500">Backend is working</p>
-          ) : (
-            <p className="text-red-500">Backend is not working</p>
-          )}
         </div>
       </Form>
     </Formik>
