@@ -28,5 +28,3 @@ export const useCheckBackendIsWorking = () => {
     retry: false,
   });
 };
-
-

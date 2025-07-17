@@ -17,16 +17,13 @@ const SignUpForm = () => {
   const [isConfirmPasswordSeen, setIsConfirmPasswordSeen] = useState(false);
 
   const { data, refetch } = useCheckBackendIsWorking();
-const { mutate: createAccount, isPending } = useSignUpMutation();
-
+  const { mutate: createAccount, isPending } = useSignUpMutation();
 
   const handleSubmit = async (values: typeof initialValues) => {
     console.log("Form submitted with values:", values);
-  const { firstName, lastName, email, password } = values;
-  await createAccount({ firstName, lastName, email, password });
-  
+    const { firstName, lastName, email, password } = values;
+    await createAccount({ firstName, lastName, email, password });
 
-  
     refetch();
   };
   useEffect(() => {
@@ -174,14 +171,14 @@ const { mutate: createAccount, isPending } = useSignUpMutation();
           <button
             type="submit"
             className="w-full py-3 bg-indigo-600 hover:bg-indigo-700 rounded-lg text-white font-semibold text-lg transition-colors duration-300 cursor-pointer"
-           
           >
-          {isPending ?
-          <div className='flex justify-center items-center'>
-  <FaSpinner/>
-          </div>
-          
-         : 'Sign Up' }  
+            {isPending ? (
+              <div className="flex justify-center items-center">
+                <FaSpinner />
+              </div>
+            ) : (
+              "Sign Up"
+            )}
           </button>
 
           <p className="mt-4 text-sm text-center text-gray-400">
@@ -190,7 +187,6 @@ const { mutate: createAccount, isPending } = useSignUpMutation();
               Log In
             </a>
           </p>
-
         </div>
       </Form>
     </Formik>

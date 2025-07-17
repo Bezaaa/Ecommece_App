@@ -5,7 +5,6 @@ import { ShoppingCart, ArrowRight, Star, Gift } from "lucide-react";
 
 const WelcomePage = () => {
   const navigate = useNavigate();
-  
 
   return (
     <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center p-8 relative overflow-hidden">
