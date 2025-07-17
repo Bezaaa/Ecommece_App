@@ -16,11 +16,12 @@ const SignUpForm = () => {
   const [isPasswordSeen, setIsPasswordSeen] = useState(false);
   const [isConfirmPasswordSeen, setIsConfirmPasswordSeen] = useState(false);
 
+
   const { data, refetch } = useCheckBackendIsWorking();
   const { mutate: createAccount, isPending } = useSignUpMutation();
 
   const handleSubmit = async (values: typeof initialValues) => {
-    console.log("Form submitted with values:", values);
+ 
     const { firstName, lastName, email, password } = values;
     await createAccount({ firstName, lastName, email, password });
 
